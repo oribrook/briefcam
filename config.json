@@ -1,0 +1,13 @@
+{
+    "shapes": {
+        "Line2D": 4,
+        "Circle2D": 4
+    },
+    "num_points": 50,
+    "randomness": 0.2,
+    
+    "radius_range": [0.5, 3],
+    "coordinate_range": [-1, 1],    
+    "slope_range": [-4, 4],
+    "outlier_range": [-8, 8]    
+}
