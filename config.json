@@ -1,7 +1,7 @@
 {
     "shapes": {
-        "Line2D": 4,
-        "Circle2D": 4
+        "Line2D": 1,
+        "Circle2D": 1
     },
     "num_points": 50,
     "randomness": 0.2,
