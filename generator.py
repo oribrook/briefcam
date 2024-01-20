@@ -8,6 +8,7 @@ import numpy as np
 
 class Generator:
     def __init__(self, config: dict) -> None:
+        self.validate_config(config)
         self.config = config
 
     @classmethod
