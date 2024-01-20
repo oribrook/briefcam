@@ -36,10 +36,7 @@ class Generator:
                 amount
             ), f"Amount for {shape_type} should be int. got: {amount}"
 
-        assert type(config["num_points"]) in [
-            float,
-            int,
-        ], f"config.num_points isn't numeric"
+        assert type(config["num_points"]) == int, f"config.num_points isn't int"
         assert float(config["num_points"]) >= 0, f"config.num_points isn't positive"
         assert type(config["randomness"]) in [
             float,

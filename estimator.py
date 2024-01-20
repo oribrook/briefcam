@@ -72,8 +72,20 @@ def save_output(data: dict, path: str) -> None:
         file.write(json.dumps(data))
 
 
+def validate_input(shapes):
+    assert type(shapes) == list, f"Input file should contains list. got: {type(shapes)}"
+    for s in shapes:
+        assert "shape_type" in s, f"shape {s} is missing 'shape_type' entry"
+        assert "shape_params" in s, f"shape {s} is missing 'shape_params' entry"
+        assert "inlier_points" in s, f"shape {s} is missing 'inlier_points' entry"
+        assert "outlier_points" in s, f"shape {s} is missing 'outlier_points' entry"
+
+        # todo: add validators for the values of the above keys
+
+
 def main(input_path: str, output_path: str, debug: bool) -> None:
     json_shapes = load_data(input_path)
+    validate_input(json_shapes)
     estimator = Estimator()
 
     output_to_be_saved = {}
