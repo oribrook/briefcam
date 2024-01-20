@@ -10,6 +10,58 @@ class Generator:
     def __init__(self, config: dict) -> None:
         self.config = config
 
+    @classmethod
+    def validate_config(cls, config):
+        assert type(config) == dict, f"Config type should be dict. (got {type(config)})"
+
+        for shape_type in [
+            "shapes",
+            "num_points",
+            "randomness",
+            "radius_range",
+            "coordinate_range",
+            "slope_range",
+            "outlier_range",
+        ]:
+            assert shape_type in config, f"Config is missing {shape_type} entry"
+
+        for shape_type, amount in config["shapes"].items():
+            assert shape_type in ShapeEnum.__dict__, f"Unknown shape: {amount}"
+            assert type(amount) in [
+                float,
+                int,
+            ], f"Requested amount for {shape_type} ({amount}) isn't numeric."
+            assert int(amount) == float(
+                amount
+            ), f"Amount for {shape_type} should be int. got: {amount}"
+
+        assert type(config["num_points"]) in [
+            float,
+            int,
+        ], f"config.num_points isn't numeric"
+        assert float(config["num_points"]) >= 0, f"config.num_points isn't positive"
+        assert type(config["randomness"]) in [
+            float,
+            int,
+        ], f"config.randomness isn't numeric. got: {config['randomness']}"
+        assert (
+            0 <= float(config["randomness"]) <= 1
+        ), f"config.randomness should be in range [0-1]. got: {config['randomness']}"
+
+        for range_entry in [
+            "radius_range",
+            "coordinate_range",
+            "slope_range",
+            "outlier_range",
+        ]:
+            assert type(config[range_entry]) == list, f"Config.{range_entry} should be list"
+            assert len(config[range_entry]) == 2, f"Config.{range_entry} length should be 2"
+            for item in config[range_entry]:
+                assert type(item) in [
+                    float,
+                    int,
+                ], f"Config.{range_entry} values aren't numeric"
+
     def generate_shapes(self) -> list:
         shapes = []
         for shape_type, num in self.config["shapes"].items():
@@ -130,6 +182,7 @@ def save_output(data, path):
 
 def main(config_file: str, output_path: str, debug: bool) -> None:
     config = load_config(path=config_file)
+    Generator.validate_config(config)
     generator = Generator(config=config)
     shapes = generator.generate_shapes()
 
