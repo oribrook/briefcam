@@ -4,6 +4,7 @@ import json
 from helpers import plot_points_2D, ShapeEnum
 from shape import Line2D, Circle2D, Shape
 import numpy as np
+import os
 
 
 class Generator:
@@ -179,6 +180,7 @@ def save_output(data, path):
 
 
 def main(config_file: str, output_path: str, debug: bool) -> None:
+    assert os.path.isfile(config_file), "arg:config_file isn't a file."
     config = load_config(path=config_file)
     Generator.validate_config(config)
     generator = Generator(config=config)

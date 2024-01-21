@@ -3,6 +3,7 @@ import argparse
 import json
 from shape import Line2D
 from helpers import plot_points_2D, ShapeEnum
+import os
 
 
 class Estimator:
@@ -84,6 +85,7 @@ def validate_input(shapes):
 
 
 def main(input_path: str, output_path: str, debug: bool) -> None:
+    assert os.path.isfile(input_path), "arg:input_path isn't a file."
     json_shapes = load_data(input_path)
     validate_input(json_shapes)
     estimator = Estimator()
